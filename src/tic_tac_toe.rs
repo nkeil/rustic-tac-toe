@@ -13,6 +13,12 @@ pub enum Player {
     O,
 }
 
+impl Display for Player {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", if matches!(self, Self::X) { "X" } else { "O" })
+    }
+}
+
 /// A board value is either claimed by a player, or unclaimed
 #[derive(Clone, Copy)]
 enum BoardValue {
@@ -95,12 +101,6 @@ impl TicTacToe {
             Player::O => Player::X,
         };
         self.status = self.check_game_status();
-
-        match self.status {
-            GameStatus::Tie => println!("The game was a tie!"),
-            GameStatus::Victory(player) => println!("{:?} has won!!", player),
-            GameStatus::Incomplete => {}
-        }
     }
     fn check_game_status(&mut self) -> GameStatus {
         let victory_lines = [
@@ -145,12 +145,18 @@ impl Widget for TicTacToe {
     fn render(self, area: Rect, buf: &mut Buffer) {
         // Display board
         let [[a1, a2, a3], [b1, b2, b3], [c1, c2, c3]] = self.board;
+        let status_string = match self.status {
+            GameStatus::Incomplete => format!("{}'s turn", self.turn),
+            GameStatus::Tie => String::from("It's a tie!"),
+            GameStatus::Victory(p) => format!("{} has won!", p),
+        };
         let lines = [
             format!(" {} | {} | {}", a1, a2, a3),
             format!("———|———|———"),
             format!(" {} | {} | {}", b1, b2, b3),
             format!("———|———|———"),
             format!(" {} | {} | {}", c1, c2, c3),
+            status_string,
         ];
         for (i, line) in lines.into_iter().enumerate() {
             buf.set_line(

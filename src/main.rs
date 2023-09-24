@@ -8,7 +8,7 @@ use crossterm::{
 };
 use ratatui::{
     prelude::{CrosstermBackend, Rect},
-    widgets::{Block, Borders},
+    widgets::{Block, Borders, Paragraph},
     Terminal,
 };
 use tic_tac_toe::TicTacToe;
@@ -25,6 +25,7 @@ fn main() -> io::Result<()> {
         terminal.draw(|f| {
             let size = f.size();
             let block = Block::default().title("Tic-Tac-Toe").borders(Borders::ALL);
+            let instructions = Paragraph::new("Press q to quit\nPress r to restart");
             f.render_widget(block, size);
             f.render_widget(
                 tic_tac_toe,
@@ -35,6 +36,7 @@ fn main() -> io::Result<()> {
                     5,
                 ),
             );
+            f.render_widget(instructions, Rect::new(3, 2, 20, 5));
         })?;
         if event::poll(Duration::from_millis(250))? {
             if let Event::Key(key) = event::read()? {
