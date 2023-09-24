@@ -11,7 +11,7 @@ use ratatui::{
     widgets::{Block, Borders},
     Terminal,
 };
-use tic_tac_toe::*;
+use tic_tac_toe::TicTacToe;
 
 fn main() -> io::Result<()> {
     let mut stdout = io::stdout();
@@ -38,30 +38,13 @@ fn main() -> io::Result<()> {
         })?;
         if event::poll(Duration::from_millis(250))? {
             if let Event::Key(key) = event::read()? {
-                if KeyCode::Char('q') == key.code {
-                    break;
-                }
-
-                if KeyCode::Left == key.code {
-                    tic_tac_toe.selected = match tic_tac_toe.selected {
-                        None => Some((0, 0)),
-                        Some((x, y)) => Some((if x > 0 { x - 1 } else { 0 }, y)),
-                    }
-                } else if KeyCode::Right == key.code {
-                    tic_tac_toe.selected = match tic_tac_toe.selected {
-                        None => Some((1, 0)),
-                        Some((x, y)) => Some(((x + 1).min(2), y)),
-                    }
-                } else if KeyCode::Up == key.code {
-                    tic_tac_toe.selected = match tic_tac_toe.selected {
-                        None => Some((0, 0)),
-                        Some((x, y)) => Some((x, if y > 0 { y - 1 } else { 0 })),
-                    }
-                } else if KeyCode::Down == key.code {
-                    tic_tac_toe.selected = match tic_tac_toe.selected {
-                        None => Some((0, 1)),
-                        Some((x, y)) => Some((x, (y + 1).min(2))),
-                    }
+                match key.code {
+                    KeyCode::Char('q') => break,
+                    KeyCode::Left => tic_tac_toe.move_left(),
+                    KeyCode::Right => tic_tac_toe.move_right(),
+                    KeyCode::Up => tic_tac_toe.move_up(),
+                    KeyCode::Down => tic_tac_toe.move_down(),
+                    _ => {}
                 }
             }
         }

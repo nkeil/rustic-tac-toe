@@ -8,7 +8,7 @@ use ratatui::{
 };
 
 #[derive(Clone, Copy)]
-pub enum BoardValue {
+enum BoardValue {
     None,
     X,
     O,
@@ -27,8 +27,8 @@ impl Display for BoardValue {
 
 #[derive(Clone, Copy)]
 pub struct TicTacToe {
-    pub board: [[BoardValue; 3]; 3],
-    pub selected: Option<(u8, u8)>,
+    board: [[BoardValue; 3]; 3],
+    selected: Option<(u8, u8)>,
 }
 
 impl TicTacToe {
@@ -36,6 +36,30 @@ impl TicTacToe {
         Self {
             board: [[BoardValue::None; 3]; 3],
             selected: None,
+        }
+    }
+    pub fn move_left(&mut self) {
+        self.selected = match self.selected {
+            None => Some((0, 0)),
+            Some((x, y)) => Some((if x > 0 { x - 1 } else { 0 }, y)),
+        }
+    }
+    pub fn move_right(&mut self) {
+        self.selected = match self.selected {
+            None => Some((1, 0)),
+            Some((x, y)) => Some(((x + 1).min(2), y)),
+        }
+    }
+    pub fn move_up(&mut self) {
+        self.selected = match self.selected {
+            None => Some((0, 0)),
+            Some((x, y)) => Some((x, if y > 0 { y - 1 } else { 0 })),
+        }
+    }
+    pub fn move_down(&mut self) {
+        self.selected = match self.selected {
+            None => Some((0, 1)),
+            Some((x, y)) => Some((x, (y + 1).min(2))),
         }
     }
 }
