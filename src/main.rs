@@ -44,6 +44,7 @@ fn main() -> io::Result<()> {
                     KeyCode::Right => tic_tac_toe.move_right(),
                     KeyCode::Up => tic_tac_toe.move_up(),
                     KeyCode::Down => tic_tac_toe.move_down(),
+                    KeyCode::Char(' ') => tic_tac_toe.select_square(),
                     _ => {}
                 }
             }
