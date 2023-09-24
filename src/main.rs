@@ -40,6 +40,7 @@ fn main() -> io::Result<()> {
             if let Event::Key(key) = event::read()? {
                 match key.code {
                     KeyCode::Char('q') => break,
+                    KeyCode::Char('r') => tic_tac_toe.restart(),
                     KeyCode::Left => tic_tac_toe.move_left(),
                     KeyCode::Right => tic_tac_toe.move_right(),
                     KeyCode::Up => tic_tac_toe.move_up(),
