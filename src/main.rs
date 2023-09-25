@@ -37,11 +37,19 @@ fn main() -> io::Result<()> {
                 match key.code {
                     KeyCode::Char('q') => break,
                     KeyCode::Char('r') => tic_tac_toe.restart(),
+
                     KeyCode::Left => tic_tac_toe.move_left(),
                     KeyCode::Right => tic_tac_toe.move_right(),
                     KeyCode::Up => tic_tac_toe.move_up(),
                     KeyCode::Down => tic_tac_toe.move_down(),
+
+                    KeyCode::Char('h') => tic_tac_toe.move_left(),
+                    KeyCode::Char('l') => tic_tac_toe.move_right(),
+                    KeyCode::Char('k') => tic_tac_toe.move_up(),
+                    KeyCode::Char('j') => tic_tac_toe.move_down(),
+
                     KeyCode::Char(' ') => tic_tac_toe.select_square(),
+                    KeyCode::Enter => tic_tac_toe.select_square(),
                     _ => {}
                 }
             }
