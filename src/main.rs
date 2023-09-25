@@ -1,24 +1,17 @@
 use std::{io, time::Duration};
+mod terminal;
 mod tic_tac_toe;
 
-use crossterm::{
-    event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode},
-    execute,
-    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
-};
+use crossterm::event::{self, Event, KeyCode};
 use ratatui::{
-    prelude::{CrosstermBackend, Rect},
+    prelude::Rect,
     widgets::{Block, Borders, Paragraph},
-    Terminal,
 };
+use terminal::{start_terminal, stop_terminal};
 use tic_tac_toe::TicTacToe;
 
 fn main() -> io::Result<()> {
-    let mut stdout = io::stdout();
-    enable_raw_mode()?;
-    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
-    let mut terminal = Terminal::new(CrosstermBackend::new(stdout))?;
-
+    let mut terminal = start_terminal()?;
     let mut tic_tac_toe = TicTacToe::new();
 
     loop {
@@ -55,13 +48,7 @@ fn main() -> io::Result<()> {
     }
 
     // restore terminal
-    disable_raw_mode()?;
-    execute!(
-        terminal.backend_mut(),
-        LeaveAlternateScreen,
-        DisableMouseCapture
-    )?;
-    terminal.show_cursor()?;
+    stop_terminal(terminal)?;
 
     Ok(())
 }
