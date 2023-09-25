@@ -5,6 +5,7 @@ mod tic_tac_toe;
 use crossterm::event::{self, Event, KeyCode};
 use ratatui::{
     prelude::Rect,
+    text::Line,
     widgets::{Block, Borders, Paragraph},
 };
 use terminal::{start_terminal, stop_terminal};
@@ -18,7 +19,7 @@ fn main() -> io::Result<()> {
         terminal.draw(|f| {
             let size = f.size();
             let block = Block::default().title("Tic-Tac-Toe").borders(Borders::ALL);
-            let instructions = Paragraph::new("Use arrow keys to move\nPress space to select\nPress q to quit\nPress r to restart");
+            let instructions = Paragraph::new(Vec::from(tic_tac_toe::INSTRUCTIONS.map(Line::from)));
             f.render_widget(block, size);
             f.render_widget(
                 tic_tac_toe,

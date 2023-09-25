@@ -7,6 +7,13 @@ use ratatui::{
     widgets::Widget,
 };
 
+pub const INSTRUCTIONS: [&str; 4] = [
+    "Use arrow keys to move",
+    "Press space to select",
+    "Press q to quit",
+    "Press r to restart",
+];
+
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub enum Player {
     X,
