@@ -18,7 +18,7 @@ fn main() -> io::Result<()> {
         terminal.draw(|f| {
             let size = f.size();
             let block = Block::default().title("Tic-Tac-Toe").borders(Borders::ALL);
-            let instructions = Paragraph::new("Press q to quit\nPress r to restart");
+            let instructions = Paragraph::new("Use arrow keys to move\nPress space to select\nPress q to quit\nPress r to restart");
             f.render_widget(block, size);
             f.render_widget(
                 tic_tac_toe,
@@ -29,7 +29,7 @@ fn main() -> io::Result<()> {
                     5,
                 ),
             );
-            f.render_widget(instructions, Rect::new(3, 2, 20, 5));
+            f.render_widget(instructions, Rect::new(3, 2, 30, 5));
         })?;
         if event::poll(Duration::from_millis(250))? {
             if let Event::Key(key) = event::read()? {
@@ -47,8 +47,6 @@ fn main() -> io::Result<()> {
         }
     }
 
-    // restore terminal
     stop_terminal(terminal)?;
-
     Ok(())
 }
